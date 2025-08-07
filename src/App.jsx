@@ -4,16 +4,18 @@ import { MoviesList } from './components/MoviesList';
 import moviesFromServer from './api/movies.json';
 
 function sortMovies(movies, { query }) {
+  const normalizedQuery = query.trim().toLowerCase();
+
   return movies.filter(movie => {
     return (
-      movie.title.toLowerCase().includes(query.toLowerCase()) ||
-      movie.description.toLowerCase().includes(query.toLowerCase())
+      movie.title.toLowerCase().includes(normalizedQuery) ||
+      movie.description.toLowerCase().includes(normalizedQuery)
     );
   });
 }
 
 export const App = () => {
-  const [query, setFilterBy] = useState('');
+  const [query, setQuery] = useState('');
   const visibleMovies = sortMovies(moviesFromServer, { query });
 
   return (
@@ -34,7 +36,7 @@ export const App = () => {
                 placeholder="Type search word"
                 value={query}
                 onChange={event => {
-                  setFilterBy(event.target.value);
+                  setQuery(event.target.value);
                 }}
               />
             </div>
